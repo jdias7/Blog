@@ -1,10 +1,11 @@
 package Base;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Post {
+public class Post implements Comparable<Post>, Serializable {
 
-	private Date date;
-	private String content;
+	protected Date date;
+	protected String content;
 	
 	/**
 	 * Constructor
@@ -37,7 +38,7 @@ public class Post {
 	 * @return string
 	 */
 	public String toString(){
-		return "Post dqted from : " + this.date + " and which content is ; " + this.content;
+		return "Post dated from : " + this.date + " and which content is ; " + this.content;
 	}
 	
 	@Override
@@ -82,6 +83,41 @@ public class Post {
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param String keyword
+	 * @return boolean
+	 */
+	public boolean contains(String keyword){
+
+		if (this.content.contains(keyword)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public int compareTo(Post p){
+		if (p.date.compareTo(this.date) == 1){
+			return -1;
+		}
+		else if (p.date.compareTo(this.date) == 0){
+			return 0;
+		}
+		else{
+			return 1;
+		}
+	}
+	
+	public void save(String filepath){
+		
+	}
+	
+	public void load(String filepath){
+		
 	}
 	
 }
