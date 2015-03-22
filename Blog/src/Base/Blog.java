@@ -1,5 +1,11 @@
 package Base;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -132,7 +138,37 @@ public class Blog implements Serializable {
 	}
 	
 	
+	public void save(String filepath){
+		try{
+		FileOutputStream fs = new FileOutputStream(filepath); 
+		ObjectOutputStream os = new ObjectOutputStream(fs);
+		os.writeObject(this);
+		os.close();
+		}catch(FileNotFoundException ex){
+			ex.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public void load(String filepath){
+		try{
+			FileInputStream fs = new FileInputStream(filepath); 
+			ObjectInputStream os = new ObjectInputStream(fs);
+			Blog myblog = (Blog) os.readObject();
+			this.allPosts = myblog.allPosts;
+			this.user = myblog.user;
+			os.close();
+			}catch(FileNotFoundException ex){
+				ex.printStackTrace();
+				System.out.println("Wait !  there is something wrong, I can not find the file");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		
+	}
 	
 	
 }

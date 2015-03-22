@@ -1,4 +1,10 @@
 package Base;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -112,12 +118,6 @@ public class Post implements Comparable<Post>, Serializable {
 		}
 	}
 	
-	public void save(String filepath){
-		
-	}
 	
-	public void load(String filepath){
-		
-	}
 	
 }
