@@ -35,7 +35,7 @@ public class TestIO {
 		
 		Blog blog=new Blog(user);
 		blog.setPosts(allposts);
-          blog.list();
+        blog.list();
 		
 		
 		// *****************Task 1: save a blog to a file*************

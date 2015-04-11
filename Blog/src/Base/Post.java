@@ -44,7 +44,7 @@ public class Post implements Comparable<Post>, Serializable {
 	 * @return string
 	 */
 	public String toString(){
-		return "Post dated from : " + this.date + " and which content is ; " + this.content;
+		return "Post dated from : " + this.date + " and which content is : " + this.content;
 	}
 	
 	@Override

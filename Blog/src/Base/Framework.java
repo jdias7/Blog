@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+
+import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,35 +16,30 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class BlogGui implements ActionListener {
-	
+public class Framework{
+
 	private JFrame mainFrame;
 	private JLabel jLabel;
 	private JPanel jPanel;
-	private JTextArea postTextArea;
-	private JTextField postContent;
+	private JTextArea postTextArea, postContent;
 	private JButton refresh;
 	private JButton post;
+	private Blog myBlog;
 	
-	
-	public BlogGui(String name, String postTextArea, String postContent, String refresh, String post, String label ){
-		
+	public Framework(String name, String postTextArea, String postContent, String refresh, String post, String label){
 		//initialization of all the components of the frame
 		this.mainFrame = new JFrame(name);
 		this.jLabel = new JLabel(label);
 		this.jPanel = new JPanel();
 		this.postTextArea = new JTextArea(postTextArea);
-		this.postContent = new JTextField(postContent);
+		this.postContent = new JTextArea(postContent);
 		this.refresh = new JButton(refresh);
 		this.post = new JButton(post);
-	
+		this.myBlog = new Blog(new User(1, "", ""));
 	}
 	
-	/**
-	 * Creation of the window
-	 */
-	public void setWindow(){
-	
+	public void setFramework(){
+		
 		this.mainFrame.setSize(800, 1000);
 		//two grid for the two folowwing panels
 		this.mainFrame.setLayout(new GridLayout(2,0));
@@ -67,29 +66,36 @@ public class BlogGui implements ActionListener {
 		this.mainFrame.setVisible(true);
 		
 		//register the buttons for event handling
-		this.post.addActionListener(this);
-		this.refresh.addActionListener(this);
+		this.post.addActionListener(new postListener());
+		this.refresh.addActionListener(new refreshListener());
 	}
 	
-	@Override
-	/**
-	 * Handle the events
-	 */
-	public void actionPerformed(ActionEvent e){
-		if (e.getSource() == this.post){
-			this.postContent.setText("You clicked post");
-		}
-		else if (e.getSource() == this.refresh){
-			this.postContent.setText("You clicked refresh");
-		}
-		else{
-			return;
+	class postListener implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e){
+			String content = postTextArea.getText();
+			Post p = new Post(new Date(), content);
+			myBlog.post(p);
+			String savefilepath="C:\\Users\\Public\\"+myBlog.getUser().getUserName()+".blog.txt";
+			myBlog.save(savefilepath);
+			postContent.setWrapStyleWord(true);
+			postContent.setLineWrap(true);
+			postContent.append(content);
+			postTextArea.setText(null);
+			
 		}
 	}
 	
-	public static void main(String[] args) {
-		BlogGui blogGui = new BlogGui("Julien", "What's on your mind ?", "Here is put my post", "refresh", "post", "You can input 140 characters");
-		blogGui.setWindow();
+	class refreshListener implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e){
+			String savefilepath="C:\\Users\\Public\\"+myBlog.getUser().getUserName()+".blog.txt";
+			myBlog.load(savefilepath);
+			postContent.setText(myBlog.toString());
+			
+		}
 	}
-
+	
 }
