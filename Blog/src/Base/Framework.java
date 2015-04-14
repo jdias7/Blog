@@ -79,10 +79,11 @@ public class Framework{
 		@Override
 		public void actionPerformed(ActionEvent e){
 			String content = postTextArea.getText();
+			String savefilepath="C:\\Users\\Public\\"+myBlog.getUser().getUserName()+".blog.txt";
 			if (postTextArea.getText().length() < 140 && postTextArea.getText().length() > 0) {
+				myBlog.load(savefilepath);
 				Post p = new Post(new Date(), content);
 				myBlog.post(p);
-				String savefilepath="C:\\Users\\Public\\"+myBlog.getUser().getUserName()+".blog.txt";
 				myBlog.save(savefilepath);
 				postContent.setWrapStyleWord(true);
 				postContent.setLineWrap(true);
