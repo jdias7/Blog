@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -68,6 +70,7 @@ public class Framework{
 		//register the buttons for event handling
 		this.post.addActionListener(new postListener());
 		this.refresh.addActionListener(new refreshListener());
+		this.postTextArea.addKeyListener(new lengthListener());
 	}
 	
 	class postListener implements ActionListener{
@@ -75,15 +78,16 @@ public class Framework{
 		@Override
 		public void actionPerformed(ActionEvent e){
 			String content = postTextArea.getText();
-			Post p = new Post(new Date(), content);
-			myBlog.post(p);
-			String savefilepath="C:\\Users\\Public\\"+myBlog.getUser().getUserName()+".blog.txt";
-			myBlog.save(savefilepath);
-			postContent.setWrapStyleWord(true);
-			postContent.setLineWrap(true);
-			postContent.append(content);
-			postTextArea.setText(null);
-			
+			if (postTextArea.getText().length() < 140 && postTextArea.getText().length() > 0) {
+				Post p = new Post(new Date(), content);
+				myBlog.post(p);
+				String savefilepath="C:\\Users\\Public\\"+myBlog.getUser().getUserName()+".blog.txt";
+				myBlog.save(savefilepath);
+				postContent.setWrapStyleWord(true);
+				postContent.setLineWrap(true);
+				postContent.append(content);
+				postTextArea.setText(null);
+			}		
 		}
 	}
 	
@@ -96,6 +100,32 @@ public class Framework{
 			postContent.setText(myBlog.toString());
 			
 		}
+	}
+	
+	class lengthListener implements KeyListener{
+		
+		@Override
+		public void keyTyped(KeyEvent e){
+			
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent e){
+			
+		}
+		
+		@Override
+		public void keyReleased(KeyEvent e){
+			int nbChar = 0;
+			if (postTextArea.getText().length() > 140){
+				jLabel.setText("Your post length has exceed 140 !");
+			}
+			else{
+				nbChar = 140 - postTextArea.getText().length();
+				jLabel.setText("Your can still input " + nbChar);
+			}
+		}
+		
 	}
 	
 }
