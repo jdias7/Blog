@@ -28,22 +28,23 @@ public class Framework{
 	private JButton post;
 	private Blog myBlog;
 	
-	public Framework(String name, String postTextArea, String postContent, String refresh, String post, String label){
-		//initialization of all the components of the frame
-		this.mainFrame = new JFrame(name);
-		this.jLabel = new JLabel(label);
-		this.jPanel = new JPanel();
-		this.postTextArea = new JTextArea(postTextArea);
-		this.postContent = new JTextArea(postContent);
-		this.refresh = new JButton(refresh);
-		this.post = new JButton(post);
-		this.myBlog = new Blog(new User(1, "", ""));
+	public Framework(){
+			
 	}
 	
 	public void setFramework(){
+		//initialization of all the components of the frame
+		this.mainFrame = new JFrame("Julien Dias");
+		this.jLabel = new JLabel("You can still input 140 characters");
+		this.jPanel = new JPanel();
+		this.postTextArea = new JTextArea("");
+		this.postContent = new JTextArea("");
+		this.refresh = new JButton("refresh");
+		this.post = new JButton("post");
 		
+		this.myBlog = new Blog(new User(1, "", ""));
 		this.mainFrame.setSize(800, 1000);
-		//two grid for the two folowwing panels
+		//two grid for the two following panels
 		this.mainFrame.setLayout(new GridLayout(2,0));
 		//the first panel
 		this.mainFrame.add(this.jPanel);	
